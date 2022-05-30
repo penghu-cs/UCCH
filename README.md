@@ -22,33 +22,33 @@ python UCCH.py --data_name mirflickr25k --bit 128 --alpha 0.7 --num_hiden_layers
 You can get outputs as follows:
 ```
 Epoch: 13 / 20
- [================= 70/70 ====================>]  Step: 27ms | Tot: 1s946ms | Loss: 13.205 | LR: 0.0001                                                                                                            
-Img2Txt: 0.75797 	 Txt2Img: 0.759172 	 Avg: 0.758571
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 2s18ms | Loss: 13.205 | LR: 0.0001                                                                                                             
+Evaluation:	Img2Txt: 0.75797 	 Txt2Img: 0.759172 	 Avg: 0.758571
 
 Epoch: 14 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s939ms | Loss: 13.193 | LR: 0.0001                                                                                                            
-Img2Txt: 0.759404 	 Txt2Img: 0.759482 	 Avg: 0.759443
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s951ms | Loss: 13.193 | LR: 0.0001                                                                                                            
+Evaluation:	Img2Txt: 0.759404 	 Txt2Img: 0.759482 	 Avg: 0.759443
 
 Epoch: 15 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s942ms | Loss: 13.180 | LR: 0.0001                                                                                                            
-Img2Txt: 0.758604 	 Txt2Img: 0.75909 	 Avg: 0.758847
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s965ms | Loss: 13.180 | LR: 0.0001                                                                                                            
+Evaluation:	Img2Txt: 0.758604 	 Txt2Img: 0.75909 	 Avg: 0.758847
 
 Epoch: 16 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s949ms | Loss: 13.170 | LR: 0.0001                                                                                                            
-Img2Txt: 0.758019 	 Txt2Img: 0.757934 	 Avg: 0.757976
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.170 | LR: 0.0001                                                                                                            
+Evaluation:	Img2Txt: 0.758019 	 Txt2Img: 0.757934 	 Avg: 0.757976
 
 Epoch: 17 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s955ms | Loss: 13.160 | LR: 0.0001                                                                                                            
-Img2Txt: 0.757612 	 Txt2Img: 0.758054 	 Avg: 0.757833
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.160 | LR: 0.0001                                                                                                            
+Evaluation:	Img2Txt: 0.757612 	 Txt2Img: 0.758054 	 Avg: 0.757833
 
 Epoch: 18 / 20
- [================= 70/70 ====================>]  Step: 29ms | Tot: 1s964ms | Loss: 13.151 | LR: 0.0001                                                                                                            
-Img2Txt: 0.757199 	 Txt2Img: 0.757834 	 Avg: 0.757517
+ [================= 70/70 ====================>]  Step: 29ms | Tot: 1s968ms | Loss: 13.151 | LR: 0.0001                                                                                                            
+Evaluation:	Img2Txt: 0.757199 	 Txt2Img: 0.757834 	 Avg: 0.757517
 
 Epoch: 19 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s964ms | Loss: 13.144 | LR: 0.0001                                                                                                            
-Evaluation: 	 Img2Txt: 0.757373 	 Txt2Img: 0.757289 	 Avg: 0.757331
-Test: 	 Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
+ [================= 70/70 ====================>]  Step: 30ms | Tot: 2s43ms | Loss: 13.144 | LR: 0.0001                                                                                                             
+Evaluation:	Img2Txt: 0.757373 	 Txt2Img: 0.757289 	 Avg: 0.757331
+Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 ```
 
 ## Comparison with the State-of-the-Art
