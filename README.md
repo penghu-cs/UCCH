@@ -819,7 +819,7 @@ Test: 	 Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 </table>
 
 ## Citation
-If you find MRL useful in your research, please consider citing:
+If you find UCCH useful in your research, please consider citing:
 ```
 @article{hu2022UCCH,
    title={Unsupervised Contrastive Cross-modal Hashing},
