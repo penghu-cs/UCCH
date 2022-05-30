@@ -1,5 +1,5 @@
 # UCCH
-**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*, [Unsupervised Contrastive Cross-modal Hashing](paper/UCCH.pdf), IEEE Trans Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
+**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*,[Unsupervised Contrastive Cross-modal Hashing](paper/UCCH.pdf), IEEE Trans Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
 
 ## Abstract
 In this paper, we study how to make unsupervised cross-modal hashing (CMH) benefit from contrastive learning (CL) by overcoming two challenges. To be exact, i) to address the performance degradation issue caused by binary optimization for hashing, we propose a novel momentum optimizer that performs hashing operation learnable in CL, thus making on-the-shelf deep cross-modal hashing possible. In other words, our method does not involve binary-continuous relaxation like most existing methods, thus enjoying better retrieval performance; ii) to alleviate the influence brought by false-negative pairs (FNPs), we propose a Cross-modal Ranking Learning loss (CRL) which utilizes the discrimination from all instead of only the hard negative pairs, where FNP refers to the within-class pairs that were wrongly treated as negative pairs. Thanks to such a global strategy, CRL endows our method with better performance because CRL will not overuse the FNPs while ignoring the true-negative pairs. To the best of our knowledge, the proposed method could be one of the first successful contrastive hashing methods. To demonstrate the effectiveness of the proposed method, we carry out experiments on five widely-used datasets compared with 13 state-of-the-art methods. The code is available at https://github.com/penghu-cs/UCCH.
@@ -7,7 +7,7 @@ In this paper, we study how to make unsupervised cross-modal hashing (CMH) benef
 ## Framework
 <h4>Figure 1 The pipeline of the proposed method and we take a bimodal case as an example. In the example, two modality-specific networks learn unified binary representations for different modalities. The outputs of networks directly interact with the hash codes to learn the latent discrimination by using instance-level contrast without continuous relaxation, i.e., contrastive hashing learning (𝓛<sub>𝒸</sub>). The cross-modal ranking loss 𝓛<sub>𝑟</sub> is utilized to bridge cross-modal hashing learning to cross-modal retrieval.
 </h4> 
-<img src="paper/UCCH.jpg" class="center"/>
+![UCCH](paper/UCCH.jpg)
 
 ## Usage
 To train a model with 128 bits on MIRFLICKR-25K, just run UCCH.py:
@@ -22,31 +22,31 @@ python UCCH.py --data_name mirflickr25k --bit 128 --alpha 0.7 --num_hiden_layers
 You can get outputs as follows:
 ```
 Epoch: 13 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 2s18ms | Loss: 13.205 | LR: 0.0001                                                                                                             
+[================= 70/70 ====================>]  Step: 28ms | Tot: 2s18ms | Loss: 13.205 | LR: 0.0001                                                                                                             
 Evaluation:	Img2Txt: 0.75797 	 Txt2Img: 0.759172 	 Avg: 0.758571
 
 Epoch: 14 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s951ms | Loss: 13.193 | LR: 0.0001                                                                                                            
+[================= 70/70 ====================>]  Step: 28ms | Tot: 1s951ms | Loss: 13.193 | LR: 0.0001                                                                                                            
 Evaluation:	Img2Txt: 0.759404 	 Txt2Img: 0.759482 	 Avg: 0.759443
 
 Epoch: 15 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s965ms | Loss: 13.180 | LR: 0.0001                                                                                                            
+[================= 70/70 ====================>]  Step: 28ms | Tot: 1s965ms | Loss: 13.180 | LR: 0.0001                                                                                                            
 Evaluation:	Img2Txt: 0.758604 	 Txt2Img: 0.75909 	 Avg: 0.758847
 
 Epoch: 16 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.170 | LR: 0.0001                                                                                                            
+[================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.170 | LR: 0.0001                                                                                                            
 Evaluation:	Img2Txt: 0.758019 	 Txt2Img: 0.757934 	 Avg: 0.757976
 
 Epoch: 17 / 20
- [================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.160 | LR: 0.0001                                                                                                            
+[================= 70/70 ====================>]  Step: 28ms | Tot: 1s973ms | Loss: 13.160 | LR: 0.0001                                                                                                            
 Evaluation:	Img2Txt: 0.757612 	 Txt2Img: 0.758054 	 Avg: 0.757833
 
 Epoch: 18 / 20
- [================= 70/70 ====================>]  Step: 29ms | Tot: 1s968ms | Loss: 13.151 | LR: 0.0001                                                                                                            
+[================= 70/70 ====================>]  Step: 29ms | Tot: 1s968ms | Loss: 13.151 | LR: 0.0001                                                                                                            
 Evaluation:	Img2Txt: 0.757199 	 Txt2Img: 0.757834 	 Avg: 0.757517
 
 Epoch: 19 / 20
- [================= 70/70 ====================>]  Step: 30ms | Tot: 2s43ms | Loss: 13.144 | LR: 0.0001                                                                                                             
+[================= 70/70 ====================>]  Step: 30ms | Tot: 2s43ms | Loss: 13.144 | LR: 0.0001                                                                                                             
 Evaluation:	Img2Txt: 0.757373 	 Txt2Img: 0.757289 	 Avg: 0.757331
 Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 ```
@@ -87,7 +87,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky">CVH [20]</td>
+    <td class="tg-0pky">CVH[20]</td>
     <td class="tg-c3ow">0.620</td>
     <td class="tg-c3ow">0.608</td>
     <td class="tg-c3ow">0.594</td>
@@ -106,7 +106,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.360</td>
   </tr>
   <tr>
-    <td class="tg-0pky">LSSH [59]</td>
+    <td class="tg-0pky">LSSH[59]</td>
     <td class="tg-c3ow">0.597</td>
     <td class="tg-c3ow">0.609</td>
     <td class="tg-c3ow">0.606</td>
@@ -125,7 +125,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.401</td>
   </tr>
   <tr>
-    <td class="tg-0pky">CMFH [60]</td>
+    <td class="tg-0pky">CMFH[60]</td>
     <td class="tg-c3ow">0.557</td>
     <td class="tg-c3ow">0.557</td>
     <td class="tg-c3ow">0.556</td>
@@ -144,7 +144,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.306</td>
   </tr>
   <tr>
-    <td class="tg-0pky">FSH [18]</td>
+    <td class="tg-0pky">FSH[18]</td>
     <td class="tg-c3ow">0.581</td>
     <td class="tg-c3ow">0.612</td>
     <td class="tg-c3ow">0.635</td>
@@ -163,7 +163,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.451</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DLFH [23]</td>
+    <td class="tg-0pky">DLFH[23]</td>
     <td class="tg-c3ow">0.638</td>
     <td class="tg-c3ow">0.658</td>
     <td class="tg-c3ow">0.677</td>
@@ -182,7 +182,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.434</td>
   </tr>
   <tr>
-    <td class="tg-0pky">MTFH [16]</td>
+    <td class="tg-0pky">MTFH[16]</td>
     <td class="tg-c3ow">0.507</td>
     <td class="tg-c3ow">0.512</td>
     <td class="tg-c3ow">0.558</td>
@@ -201,7 +201,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.297</td>
   </tr>
   <tr>
-    <td class="tg-0pky">FOMH [58]</td>
+    <td class="tg-0pky">FOMH[58]</td>
     <td class="tg-c3ow">0.575</td>
     <td class="tg-c3ow">0.640</td>
     <td class="tg-c3ow">0.691</td>
@@ -220,7 +220,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.373</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DCH [34]</td>
+    <td class="tg-0pky">DCH[34]</td>
     <td class="tg-c3ow">0.596</td>
     <td class="tg-c3ow">0.602</td>
     <td class="tg-c3ow">0.626</td>
@@ -239,7 +239,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.391</td>
   </tr>
   <tr>
-    <td class="tg-0pky">UGACH [61]</td>
+    <td class="tg-0pky">UGACH[61]</td>
     <td class="tg-c3ow">0.685</td>
     <td class="tg-c3ow">0.693</td>
     <td class="tg-c3ow">0.704</td>
@@ -258,7 +258,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.463</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DJSRH [62]</td>
+    <td class="tg-0pky">DJSRH[62]</td>
     <td class="tg-c3ow">0.652</td>
     <td class="tg-c3ow">0.697</td>
     <td class="tg-c3ow">0.700</td>
@@ -277,7 +277,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.478</td>
   </tr>
   <tr>
-    <td class="tg-0pky">JDSH [63]</td>
+    <td class="tg-0pky">JDSH[63]</td>
     <td class="tg-c3ow">0.724</td>
     <td class="tg-c3ow">0.734</td>
     <td class="tg-c3ow">0.741</td>
@@ -296,7 +296,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.486</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DGCPN [64]</td>
+    <td class="tg-0pky">DGCPN[64]</td>
     <td class="tg-c3ow">0.711</td>
     <td class="tg-c3ow">0.723</td>
     <td class="tg-c3ow">0.737</td>
@@ -315,7 +315,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.497</td>
   </tr>
   <tr>
-    <td class="tg-0pky">UCH [13]</td>
+    <td class="tg-0pky">UCH[13]</td>
     <td class="tg-c3ow">0.654</td>
     <td class="tg-c3ow">0.669</td>
     <td class="tg-c3ow">0.679</td>
@@ -391,7 +391,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky">CVH [20]</td>
+    <td class="tg-0pky">CVH[20]</td>
     <td class="tg-c3ow">0.487</td>
     <td class="tg-c3ow">0.495</td>
     <td class="tg-c3ow">0.456</td>
@@ -410,7 +410,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.429</td>
   </tr>
   <tr>
-    <td class="tg-0pky">LSSH [59]</td>
+    <td class="tg-0pky">LSSH[59]</td>
     <td class="tg-c3ow">0.442</td>
     <td class="tg-c3ow">0.457</td>
     <td class="tg-c3ow">0.450</td>
@@ -429,7 +429,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.560</td>
   </tr>
   <tr>
-    <td class="tg-0pky">CMFH [60]</td>
+    <td class="tg-0pky">CMFH[60]</td>
     <td class="tg-c3ow">0.339</td>
     <td class="tg-c3ow">0.338</td>
     <td class="tg-c3ow">0.343</td>
@@ -448,7 +448,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.346</td>
   </tr>
   <tr>
-    <td class="tg-0pky">FSH [18]</td>
+    <td class="tg-0pky">FSH[18]</td>
     <td class="tg-c3ow">0.557</td>
     <td class="tg-c3ow">0.565</td>
     <td class="tg-c3ow">0.598</td>
@@ -467,7 +467,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.573</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DLFH [23]</td>
+    <td class="tg-0pky">DLFH[23]</td>
     <td class="tg-c3ow">0.385</td>
     <td class="tg-c3ow">0.399</td>
     <td class="tg-c3ow">0.443</td>
@@ -486,7 +486,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.534</td>
   </tr>
   <tr>
-    <td class="tg-0pky">MTFH [16]</td>
+    <td class="tg-0pky">MTFH[16]</td>
     <td class="tg-c3ow">0.297</td>
     <td class="tg-c3ow">0.297</td>
     <td class="tg-c3ow">0.272</td>
@@ -505,7 +505,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.334</td>
   </tr>
   <tr>
-    <td class="tg-0pky">FOMH [58]</td>
+    <td class="tg-0pky">FOMH[58]</td>
     <td class="tg-c3ow">0.305</td>
     <td class="tg-c3ow">0.305</td>
     <td class="tg-c3ow">0.306</td>
@@ -524,7 +524,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.595</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DCH [34]</td>
+    <td class="tg-0pky">DCH[34]</td>
     <td class="tg-c3ow">0.392</td>
     <td class="tg-c3ow">0.422</td>
     <td class="tg-c3ow">0.430</td>
@@ -543,7 +543,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.471</td>
   </tr>
   <tr>
-    <td class="tg-0pky">UGACH [61]</td>
+    <td class="tg-0pky">UGACH[61]</td>
     <td class="tg-c3ow">0.613</td>
     <td class="tg-c3ow">0.623</td>
     <td class="tg-c3ow">0.628</td>
@@ -562,7 +562,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.635</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DJSRH [62]</td>
+    <td class="tg-0pky">DJSRH[62]</td>
     <td class="tg-c3ow">0.502</td>
     <td class="tg-c3ow">0.538</td>
     <td class="tg-c3ow">0.527</td>
@@ -581,7 +581,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.622</td>
   </tr>
   <tr>
-    <td class="tg-0pky">JDSH [63]</td>
+    <td class="tg-0pky">JDSH[63]</td>
     <td class="tg-c3ow">0.647</td>
     <td class="tg-c3ow">0.656</td>
     <td class="tg-c3ow">0.679</td>
@@ -600,7 +600,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.672</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DGCPN [64]</td>
+    <td class="tg-0pky">DGCPN[64]</td>
     <td class="tg-c3ow">0.610</td>
     <td class="tg-c3ow">0.614</td>
     <td class="tg-c3ow">0.635</td>
@@ -619,7 +619,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
     <td class="tg-c3ow">0.597</td>
   </tr>
   <tr>
-    <td class="tg-0pky">UCH [13]</td>
+    <td class="tg-0pky">UCH[13]</td>
     <td class="tg-c3ow">/</td>
     <td class="tg-c3ow">/</td>
     <td class="tg-c3ow">/</td>
