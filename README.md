@@ -1,68 +1,64 @@
 # UCCH
-**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*, [Unsupervised Contrastive Cross-modal Hashing](https://doi.org/10.1109/TPAMI.2022.3177356), IEEE Trans Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
+**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*, [Unsupervised Contrastive Cross-modal Hashing](paper/UCCH.pdf), IEEE Trans Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
 
 ## Abstract
 In this paper, we study how to make unsupervised cross-modal hashing (CMH) benefit from contrastive learning (CL) by overcoming two challenges. To be exact, i) to address the performance degradation issue caused by binary optimization for hashing, we propose a novel momentum optimizer that performs hashing operation learnable in CL, thus making on-the-shelf deep cross-modal hashing possible. In other words, our method does not involve binary-continuous relaxation like most existing methods, thus enjoying better retrieval performance; ii) to alleviate the influence brought by false-negative pairs (FNPs), we propose a Cross-modal Ranking Learning loss (CRL) which utilizes the discrimination from all instead of only the hard negative pairs, where FNP refers to the within-class pairs that were wrongly treated as negative pairs. Thanks to such a global strategy, CRL endows our method with better performance because CRL will not overuse the FNPs while ignoring the true-negative pairs. To the best of our knowledge, the proposed method could be one of the first successful contrastive hashing methods. To demonstrate the effectiveness of the proposed method, we carry out experiments on five widely-used datasets compared with 13 state-of-the-art methods. The code is available at https://github.com/penghu-cs/UCCH.
 
 ## Framework
-<h4>Figure 1 The pipeline of the proposed method and we take a bimodal case as an example. In the example, two modality-specific networks learn unified binary representations for different modalities. The outputs of networks directly interact with the hash codes to learn the latent discrimination by using instance-level contrast without continuous relaxation, i.e., contrastive hashing learning (&Lscr;<sub>𝒸</sub>). The cross-modal ranking loss &Lscr;<sub>𝓇</sub> is utilized to bridge cross-modal hashing learning to cross-modal retrieval.
-</h4>
+<h4>Figure 1 The pipeline of the proposed method and we take a bimodal case as an example. In the example, two modality-specific networks learn unified binary representations for different modalities. The outputs of networks directly interact with the hash codes to learn the latent discrimination by using instance-level contrast without continuous relaxation, i.e., contrastive hashing learning (𝓛<sub>𝒸</sub>). The cross-modal ranking loss 𝓛<sub>𝑟</sub> is utilized to bridge cross-modal hashing learning to cross-modal retrieval.
+</h4> 
 ![UCCH](paper/UCCH.jpg)
 
 ## Usage
-To train a model with 0.6 noise rate on Wikipedia, just run main_noisy.py:
+To train a model with 128 bits on MIRFLICKR-25K, just run UCCH.py:
 ```bash
-python main_noisy.py --max_epochs 30 --log_name noisylabel_mce --loss MCE  --lr 0.0001 --train_batch_size 100 --beta 0.7 --noisy_ratio 0.6 --data_name wiki
+# Features
+python UCCH.py --data_name mirflickr25k_fea --bit 128 --alpha 0.7 --num_hiden_layers 3 2 --margin 0.2 --max_epochs 20 --train_batch_size 256 --shift 0.1 --lr 0.0001 --optimizer Adam
+
+# Raw data
+python UCCH.py --data_name mirflickr25k --bit 128 --alpha 0.7 --num_hiden_layers 3 2 --margin 0.2 --max_epochs 20 --train_batch_size 256 --shift 0.1 --lr 0.0001 --optimizer Adam --pretrain -a vgg19
 ```
+
 You can get outputs as follows:
 ```
-Epoch: 24 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 277ms | Loss: 2.365 | LR: 1.28428e-05
- 
-Validation: Img2Txt: 0.480904	Txt2Img: 0.436563	Avg: 0.458733
-Test: Img2Txt: 0.474708	Txt2Img: 0.440001	Avg: 0.457354
-Saving..
+Epoch: 13 / 20
+ [================= 70/70 ====================>]  Step: 27ms | Tot: 1s946ms | Loss: 13.205 | LR: 0.0001                                                                                                            
+Img2Txt: 0.75797 	 Txt2Img: 0.759172 	 Avg: 0.758571
 
-Epoch: 25 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 275ms | Loss: 2.362 | LR: 9.54915e-06
- 
-Validation: Img2Txt: 0.48379	Txt2Img: 0.437549	Avg: 0.460669
-Test: Img2Txt: 0.475301	Txt2Img: 0.44056	Avg: 0.45793
-Saving..
+Epoch: 14 / 20
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s939ms | Loss: 13.193 | LR: 0.0001                                                                                                            
+Img2Txt: 0.759404 	 Txt2Img: 0.759482 	 Avg: 0.759443
 
-Epoch: 26 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 276ms | Loss: 2.361 | LR: 6.69873e-06
- 
-Validation: Img2Txt: 0.482946	Txt2Img: 0.43729	Avg: 0.460118
+Epoch: 15 / 20
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s942ms | Loss: 13.180 | LR: 0.0001                                                                                                            
+Img2Txt: 0.758604 	 Txt2Img: 0.75909 	 Avg: 0.758847
 
-Epoch: 27 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 273ms | Loss: 2.360 | LR: 4.32273e-06
- 
-Validation: Img2Txt: 0.480506	Txt2Img: 0.437512	Avg: 0.459009
+Epoch: 16 / 20
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s949ms | Loss: 13.170 | LR: 0.0001                                                                                                            
+Img2Txt: 0.758019 	 Txt2Img: 0.757934 	 Avg: 0.757976
 
-Epoch: 28 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 269ms | Loss: 2.360 | LR: 2.44717e-06
- 
-Validation: Img2Txt: 0.481429	Txt2Img: 0.437096	Avg: 0.459263
+Epoch: 17 / 20
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s955ms | Loss: 13.160 | LR: 0.0001                                                                                                            
+Img2Txt: 0.757612 	 Txt2Img: 0.758054 	 Avg: 0.757833
 
-Epoch: 29 / 30
- [================= 22/22 ==================>..]  Step: 12ms | Tot: 275ms | Loss: 2.359 | LR: 1.09262e-06
- 
-Validation: Img2Txt: 0.482126	Txt2Img: 0.437257	Avg: 0.459691
-Evaluation on Last Epoch:
-Img2Txt: 0.475	Txt2Img: 0.440	
-Evaluation on Best Validation:
-Img2Txt: 0.475	Txt2Img: 0.441
+Epoch: 18 / 20
+ [================= 70/70 ====================>]  Step: 29ms | Tot: 1s964ms | Loss: 13.151 | LR: 0.0001                                                                                                            
+Img2Txt: 0.757199 	 Txt2Img: 0.757834 	 Avg: 0.757517
+
+Epoch: 19 / 20
+ [================= 70/70 ====================>]  Step: 28ms | Tot: 1s964ms | Loss: 13.144 | LR: 0.0001                                                                                                            
+Evaluation: 	 Img2Txt: 0.757373 	 Txt2Img: 0.757289 	 Avg: 0.757331
+Test: 	 Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 ```
 
 ## Comparison with the State-of-the-Art
 <table>
 <thead>
-  <h4>Table 1: Performance comparison in terms of MAP scores under the symmetric noise rates of 0.2, 0.4, 0.6 and 0.8 on the Wikipedia and INRIA-Websearch datasets. The highest MAP score is shown in <b>bold</b>.</h4>
+  <h4>TABLE 1: Performance comparison in terms of MAP scores on the MIRFLICKR-25K and IAPR TC-12 datasets. The highest score is shown in <b>boldface</b>.</h4>
   <tr>
     <th class="tg-0pky" rowspan="3", align="center">Method</th>
-    <th class="tg-c3ow" colspan="8", align="center">Wikipedia</th>
-    <th class="tg-c3ow" colspan="8", align="center">INRIA-Websearch</th>
+    <th class="tg-c3ow" colspan="8", align="center">MIRFLICKR-25K</th>
+    <th class="tg-c3ow" colspan="8", align="center">IAPR TC-12</th>
   </tr>
   <tr>
     <td class="tg-c3ow" colspan="4", align="center">Image → Text</td>
@@ -71,309 +67,290 @@ Img2Txt: 0.475	Txt2Img: 0.441
     <td class="tg-c3ow" colspan="4", align="center">Text → Image</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
+    <td class="tg-c3ow">16</td>
+    <td class="tg-c3ow">32</td>
+    <td class="tg-c3ow">64</td>
+    <td class="tg-c3ow">128</td>
+    <td class="tg-c3ow">16</td>
+    <td class="tg-c3ow">32</td>
+    <td class="tg-c3ow">64</td>
+    <td class="tg-c3ow">128</td>
+    <td class="tg-c3ow">16</td>
+    <td class="tg-c3ow">32</td>
+    <td class="tg-c3ow">64</td>
+    <td class="tg-c3ow">128</td>
+    <td class="tg-c3ow">16</td>
+    <td class="tg-c3ow">32</td>
+    <td class="tg-c3ow">64</td>
+    <td class="tg-c3ow">128</td>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky">MCCA</td>
-    <td class="tg-c3ow">0.202</td>
-    <td class="tg-c3ow">0.202</td>
-    <td class="tg-c3ow">0.202</td>
-    <td class="tg-c3ow">0.202</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.275</td>
-    <td class="tg-c3ow">0.275</td>
-    <td class="tg-c3ow">0.275</td>
-    <td class="tg-c3ow">0.275</td>
-    <td class="tg-c3ow">0.277</td>
-    <td class="tg-c3ow">0.277</td>
-    <td class="tg-c3ow">0.277</td>
-    <td class="tg-c3ow">0.277</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">PLS</td>
-    <td class="tg-c3ow">0.337</td>
-    <td class="tg-c3ow">0.337</td>
-    <td class="tg-c3ow">0.337</td>
-    <td class="tg-c3ow">0.337</td>
-    <td class="tg-c3ow">0.320</td>
-    <td class="tg-c3ow">0.320</td>
-    <td class="tg-c3ow">0.320</td>
-    <td class="tg-c3ow">0.320</td>
-    <td class="tg-c3ow">0.387</td>
-    <td class="tg-c3ow">0.387</td>
-    <td class="tg-c3ow">0.387</td>
-    <td class="tg-c3ow">0.387</td>
-    <td class="tg-c3ow">0.398</td>
-    <td class="tg-c3ow">0.398</td>
-    <td class="tg-c3ow">0.398</td>
-    <td class="tg-c3ow">0.398</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">DCCA</td>
-    <td class="tg-c3ow">0.281</td>
-    <td class="tg-c3ow">0.281</td>
-    <td class="tg-c3ow">0.281</td>
-    <td class="tg-c3ow">0.281</td>
-    <td class="tg-c3ow">0.260</td>
-    <td class="tg-c3ow">0.260</td>
-    <td class="tg-c3ow">0.260</td>
-    <td class="tg-c3ow">0.260</td>
-    <td class="tg-c3ow">0.188</td>
-    <td class="tg-c3ow">0.188</td>
-    <td class="tg-c3ow">0.188</td>
-    <td class="tg-c3ow">0.188</td>
-    <td class="tg-c3ow">0.182</td>
-    <td class="tg-c3ow">0.182</td>
-    <td class="tg-c3ow">0.182</td>
-    <td class="tg-c3ow">0.182</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">DCCAE</td>
-    <td class="tg-c3ow">0.308</td>
-    <td class="tg-c3ow">0.308</td>
-    <td class="tg-c3ow">0.308</td>
-    <td class="tg-c3ow">0.308</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.167</td>
-    <td class="tg-c3ow">0.167</td>
-    <td class="tg-c3ow">0.167</td>
-    <td class="tg-c3ow">0.167</td>
-    <td class="tg-c3ow">0.164</td>
-    <td class="tg-c3ow">0.164</td>
-    <td class="tg-c3ow">0.164</td>
-    <td class="tg-c3ow">0.164</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">GMA</td>
-    <td class="tg-c3ow">0.200</td>
-    <td class="tg-c3ow">0.178</td>
-    <td class="tg-c3ow">0.153</td>
-    <td class="tg-c3ow">0.139</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.160</td>
-    <td class="tg-c3ow">0.141</td>
-    <td class="tg-c3ow">0.136</td>
-    <td class="tg-c3ow">0.425</td>
-    <td class="tg-c3ow">0.372</td>
-    <td class="tg-c3ow">0.303</td>
-    <td class="tg-c3ow">0.245</td>
-    <td class="tg-c3ow">0.437</td>
-    <td class="tg-c3ow">0.378</td>
-    <td class="tg-c3ow">0.315</td>
-    <td class="tg-c3ow">0.251</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">MvDA</td>
-    <td class="tg-c3ow">0.379</td>
-    <td class="tg-c3ow">0.285</td>
-    <td class="tg-c3ow">0.217</td>
-    <td class="tg-c3ow">0.144</td>
-    <td class="tg-c3ow">0.350</td>
-    <td class="tg-c3ow">0.270</td>
-    <td class="tg-c3ow">0.207</td>
-    <td class="tg-c3ow">0.142</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.269</td>
-    <td class="tg-c3ow">0.234</td>
-    <td class="tg-c3ow">0.186</td>
-    <td class="tg-c3ow">0.285</td>
-    <td class="tg-c3ow">0.265</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.185</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">MvDA-VC</td>
-    <td class="tg-c3ow">0.389</td>
-    <td class="tg-c3ow">0.330</td>
-    <td class="tg-c3ow">0.256</td>
-    <td class="tg-c3ow">0.162</td>
-    <td class="tg-c3ow">0.355</td>
-    <td class="tg-c3ow">0.304</td>
-    <td class="tg-c3ow">0.241</td>
-    <td class="tg-c3ow">0.153</td>
-    <td class="tg-c3ow">0.288</td>
-    <td class="tg-c3ow">0.272</td>
-    <td class="tg-c3ow">0.241</td>
-    <td class="tg-c3ow">0.192</td>
-    <td class="tg-c3ow">0.286</td>
-    <td class="tg-c3ow">0.268</td>
-    <td class="tg-c3ow">0.238</td>
-    <td class="tg-c3ow">0.190</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">GSS-SL</td>
-    <td class="tg-c3ow">0.444</td>
-    <td class="tg-c3ow">0.390</td>
-    <td class="tg-c3ow">0.309</td>
-    <td class="tg-c3ow">0.174</td>
-    <td class="tg-c3ow">0.398</td>
-    <td class="tg-c3ow">0.353</td>
-    <td class="tg-c3ow">0.287</td>
-    <td class="tg-c3ow">0.169</td>
-    <td class="tg-c3ow">0.487</td>
-    <td class="tg-c3ow">0.424</td>
-    <td class="tg-c3ow">0.272</td>
-    <td class="tg-c3ow">0.075</td>
-    <td class="tg-c3ow">0.510</td>
-    <td class="tg-c3ow">0.451</td>
-    <td class="tg-c3ow">0.307</td>
-    <td class="tg-c3ow">0.085</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">ACMR</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.231</td>
-    <td class="tg-c3ow">0.198</td>
-    <td class="tg-c3ow">0.135</td>
-    <td class="tg-c3ow">0.285</td>
-    <td class="tg-c3ow">0.194</td>
-    <td class="tg-c3ow">0.183</td>
-    <td class="tg-c3ow">0.138</td>
-    <td class="tg-c3ow">0.175</td>
-    <td class="tg-c3ow">0.096</td>
-    <td class="tg-c3ow">0.055</td>
-    <td class="tg-c3ow">0.023</td>
-    <td class="tg-c3ow">0.157</td>
-    <td class="tg-c3ow">0.114</td>
-    <td class="tg-c3ow">0.048</td>
-    <td class="tg-c3ow">0.021</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">deep-SM</td>
-    <td class="tg-c3ow">0.441</td>
-    <td class="tg-c3ow">0.387</td>
-    <td class="tg-c3ow">0.293</td>
-    <td class="tg-c3ow">0.178</td>
+    <td class="tg-0pky">CVH [20]</td>
+    <td class="tg-c3ow">0.620</td>
+    <td class="tg-c3ow">0.608</td>
+    <td class="tg-c3ow">0.594</td>
+    <td class="tg-c3ow">0.583</td>
+    <td class="tg-c3ow">0.629</td>
+    <td class="tg-c3ow">0.615</td>
+    <td class="tg-c3ow">0.599</td>
+    <td class="tg-c3ow">0.587</td>
     <td class="tg-c3ow">0.392</td>
-    <td class="tg-c3ow">0.364</td>
-    <td class="tg-c3ow">0.248</td>
-    <td class="tg-c3ow">0.177</td>
-    <td class="tg-c3ow">0.495</td>
-    <td class="tg-c3ow">0.422</td>
-    <td class="tg-c3ow">0.238</td>
-    <td class="tg-c3ow">0.046</td>
-    <td class="tg-c3ow">0.509</td>
-    <td class="tg-c3ow">0.421</td>
-    <td class="tg-c3ow">0.258</td>
-    <td class="tg-c3ow">0.063</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">FGCrossNet</td>
-    <td class="tg-c3ow">0.403</td>
-    <td class="tg-c3ow">0.322</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.156</td>
-    <td class="tg-c3ow">0.358</td>
-    <td class="tg-c3ow">0.284</td>
-    <td class="tg-c3ow">0.205</td>
-    <td class="tg-c3ow">0.147</td>
-    <td class="tg-c3ow">0.278</td>
-    <td class="tg-c3ow">0.192</td>
-    <td class="tg-c3ow">0.105</td>
-    <td class="tg-c3ow">0.027</td>
-    <td class="tg-c3ow">0.261</td>
-    <td class="tg-c3ow">0.189</td>
-    <td class="tg-c3ow">0.096</td>
-    <td class="tg-c3ow">0.025</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">SDML</td>
-    <td class="tg-c3ow">0.464</td>
-    <td class="tg-c3ow">0.406</td>
-    <td class="tg-c3ow">0.299</td>
-    <td class="tg-c3ow">0.170</td>
-    <td class="tg-c3ow">0.448</td>
+    <td class="tg-c3ow">0.378</td>
+    <td class="tg-c3ow">0.366</td>
+    <td class="tg-c3ow">0.353</td>
     <td class="tg-c3ow">0.398</td>
-    <td class="tg-c3ow">0.311</td>
-    <td class="tg-c3ow">0.184</td>
-    <td class="tg-c3ow">0.506</td>
-    <td class="tg-c3ow">0.419</td>
-    <td class="tg-c3ow">0.283</td>
-    <td class="tg-c3ow">0.024</td>
-    <td class="tg-c3ow">0.512</td>
-    <td class="tg-c3ow">0.412</td>
-    <td class="tg-c3ow">0.241</td>
-    <td class="tg-c3ow">0.066</td>
+    <td class="tg-c3ow">0.384</td>
+    <td class="tg-c3ow">0.372</td>
+    <td class="tg-c3ow">0.360</td>
   </tr>
   <tr>
-    <td class="tg-0pky">DSCMR</td>
-    <td class="tg-c3ow">0.426</td>
-    <td class="tg-c3ow">0.331</td>
-    <td class="tg-c3ow">0.226</td>
-    <td class="tg-c3ow">0.142</td>
-    <td class="tg-c3ow">0.390</td>
-    <td class="tg-c3ow">0.300</td>
-    <td class="tg-c3ow">0.212</td>
-    <td class="tg-c3ow">0.140</td>
-    <td class="tg-c3ow">0.500</td>
-    <td class="tg-c3ow">0.413</td>
-    <td class="tg-c3ow">0.225</td>
-    <td class="tg-c3ow">0.055</td>
-    <td class="tg-c3ow">0.536</td>
-    <td class="tg-c3ow">0.464</td>
-    <td class="tg-c3ow">0.237</td>
-    <td class="tg-c3ow">0.052</td>
+    <td class="tg-0pky">LSSH [59]</td>
+    <td class="tg-c3ow">0.597</td>
+    <td class="tg-c3ow">0.609</td>
+    <td class="tg-c3ow">0.606</td>
+    <td class="tg-c3ow">0.605</td>
+    <td class="tg-c3ow">0.602</td>
+    <td class="tg-c3ow">0.598</td>
+    <td class="tg-c3ow">0.598</td>
+    <td class="tg-c3ow">0.597</td>
+    <td class="tg-c3ow">0.372</td>
+    <td class="tg-c3ow">0.386</td>
+    <td class="tg-c3ow">0.396</td>
+    <td class="tg-c3ow">0.404</td>
+    <td class="tg-c3ow">0.367</td>
+    <td class="tg-c3ow">0.380</td>
+    <td class="tg-c3ow">0.392</td>
+    <td class="tg-c3ow">0.401</td>
   </tr>
   <tr>
-    <td class="tg-0pky">SMLN</td>
-    <td class="tg-c3ow">0.449</td>
-    <td class="tg-c3ow">0.365</td>
-    <td class="tg-c3ow">0.275</td>
-    <td class="tg-c3ow">0.251</td>
+    <td class="tg-0pky">CMFH [60]</td>
+    <td class="tg-c3ow">0.557</td>
+    <td class="tg-c3ow">0.557</td>
+    <td class="tg-c3ow">0.556</td>
+    <td class="tg-c3ow">0.557</td>
+    <td class="tg-c3ow">0.553</td>
+    <td class="tg-c3ow">0.553</td>
+    <td class="tg-c3ow">0.553</td>
+    <td class="tg-c3ow">0.553</td>
+    <td class="tg-c3ow">0.312</td>
+    <td class="tg-c3ow">0.314</td>
+    <td class="tg-c3ow">0.314</td>
+    <td class="tg-c3ow">0.315</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">FSH [18]</td>
+    <td class="tg-c3ow">0.581</td>
+    <td class="tg-c3ow">0.612</td>
+    <td class="tg-c3ow">0.635</td>
+    <td class="tg-c3ow">0.662</td>
+    <td class="tg-c3ow">0.576</td>
+    <td class="tg-c3ow">0.607</td>
+    <td class="tg-c3ow">0.635</td>
+    <td class="tg-c3ow">0.660</td>
+    <td class="tg-c3ow">0.377</td>
+    <td class="tg-c3ow">0.392</td>
+    <td class="tg-c3ow">0.417</td>
+    <td class="tg-c3ow">0.445</td>
+    <td class="tg-c3ow">0.383</td>
+    <td class="tg-c3ow">0.399</td>
+    <td class="tg-c3ow">0.425</td>
+    <td class="tg-c3ow">0.451</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DLFH [23]</td>
+    <td class="tg-c3ow">0.638</td>
+    <td class="tg-c3ow">0.658</td>
+    <td class="tg-c3ow">0.677</td>
+    <td class="tg-c3ow">0.684</td>
+    <td class="tg-c3ow">0.675</td>
+    <td class="tg-c3ow">0.700</td>
+    <td class="tg-c3ow">0.718</td>
+    <td class="tg-c3ow">0.725</td>
+    <td class="tg-c3ow">0.342</td>
+    <td class="tg-c3ow">0.358</td>
+    <td class="tg-c3ow">0.374</td>
+    <td class="tg-c3ow">0.395</td>
+    <td class="tg-c3ow">0.358</td>
+    <td class="tg-c3ow">0.380</td>
     <td class="tg-c3ow">0.403</td>
-    <td class="tg-c3ow">0.319</td>
-    <td class="tg-c3ow">0.246</td>
-    <td class="tg-c3ow">0.237</td>
-    <td class="tg-c3ow">0.331</td>
-    <td class="tg-c3ow">0.291</td>
-    <td class="tg-c3ow">0.262</td>
-    <td class="tg-c3ow">0.214</td>
-    <td class="tg-c3ow">0.391</td>
-    <td class="tg-c3ow">0.349</td>
-    <td class="tg-c3ow">0.292</td>
-    <td class="tg-c3ow">0.254</td>
+    <td class="tg-c3ow">0.434</td>
   </tr>
   <tr>
-    <b><td class="tg-0pky">Ours</td></b>
-    <td class="tg-c3ow"><b>0.514</b></td>
-    <td class="tg-7btt"><b>0.491</b></td>
-    <td class="tg-7btt"><b>0.464</b></td>
-    <td class="tg-7btt"><b>0.435</b></td>
-    <td class="tg-7btt"><b>0.461</b></td>
-    <td class="tg-7btt"><b>0.453</b></td>
-    <td class="tg-7btt"><b>0.421</b></td>
-    <td class="tg-7btt"><b>0.400</b></td>
-    <td class="tg-7btt"><b>0.559</b></td>
-    <td class="tg-7btt"><b>0.543</b></td>
-    <td class="tg-7btt"><b>0.512</b></td>
-    <td class="tg-7btt"><b>0.417</b></td>
-    <td class="tg-7btt"><b>0.587</b></td>
-    <td class="tg-7btt"><b>0.571</b></td>
-    <td class="tg-7btt"><b>0.533</b></td>
-    <td class="tg-7btt"><b>0.424</b></td>
+    <td class="tg-0pky">MTFH [16]</td>
+    <td class="tg-c3ow">0.507</td>
+    <td class="tg-c3ow">0.512</td>
+    <td class="tg-c3ow">0.558</td>
+    <td class="tg-c3ow">0.554</td>
+    <td class="tg-c3ow">0.514</td>
+    <td class="tg-c3ow">0.524</td>
+    <td class="tg-c3ow">0.518</td>
+    <td class="tg-c3ow">0.581</td>
+    <td class="tg-c3ow">0.277</td>
+    <td class="tg-c3ow">0.324</td>
+    <td class="tg-c3ow">0.303</td>
+    <td class="tg-c3ow">0.311</td>
+    <td class="tg-c3ow">0.294</td>
+    <td class="tg-c3ow">0.337</td>
+    <td class="tg-c3ow">0.269</td>
+    <td class="tg-c3ow">0.297</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">FOMH [58]</td>
+    <td class="tg-c3ow">0.575</td>
+    <td class="tg-c3ow">0.640</td>
+    <td class="tg-c3ow">0.691</td>
+    <td class="tg-c3ow">0.659</td>
+    <td class="tg-c3ow">0.585</td>
+    <td class="tg-c3ow">0.648</td>
+    <td class="tg-c3ow">0.719</td>
+    <td class="tg-c3ow">0.688</td>
+    <td class="tg-c3ow">0.312</td>
+    <td class="tg-c3ow">0.316</td>
+    <td class="tg-c3ow">0.317</td>
+    <td class="tg-c3ow">0.350</td>
+    <td class="tg-c3ow">0.311</td>
+    <td class="tg-c3ow">0.315</td>
+    <td class="tg-c3ow">0.322</td>
+    <td class="tg-c3ow">0.373</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DCH [34]</td>
+    <td class="tg-c3ow">0.596</td>
+    <td class="tg-c3ow">0.602</td>
+    <td class="tg-c3ow">0.626</td>
+    <td class="tg-c3ow">0.636</td>
+    <td class="tg-c3ow">0.612</td>
+    <td class="tg-c3ow">0.623</td>
+    <td class="tg-c3ow">0.653</td>
+    <td class="tg-c3ow">0.665</td>
+    <td class="tg-c3ow">0.336</td>
+    <td class="tg-c3ow">0.336</td>
+    <td class="tg-c3ow">0.344</td>
+    <td class="tg-c3ow">0.352</td>
+    <td class="tg-c3ow">0.350</td>
+    <td class="tg-c3ow">0.358</td>
+    <td class="tg-c3ow">0.374</td>
+    <td class="tg-c3ow">0.391</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UGACH [61]</td>
+    <td class="tg-c3ow">0.685</td>
+    <td class="tg-c3ow">0.693</td>
+    <td class="tg-c3ow">0.704</td>
+    <td class="tg-c3ow">0.702</td>
+    <td class="tg-c3ow">0.673</td>
+    <td class="tg-c3ow">0.676</td>
+    <td class="tg-c3ow">0.686</td>
+    <td class="tg-c3ow">0.690</td>
+    <td class="tg-c3ow">0.462</td>
+    <td class="tg-c3ow">0.467</td>
+    <td class="tg-c3ow">0.469</td>
+    <td class="tg-c3ow">0.480</td>
+    <td class="tg-c3ow">0.447</td>
+    <td class="tg-c3ow">0.463</td>
+    <td class="tg-c3ow">0.468</td>
+    <td class="tg-c3ow">0.463</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DJSRH [62]</td>
+    <td class="tg-c3ow">0.652</td>
+    <td class="tg-c3ow">0.697</td>
+    <td class="tg-c3ow">0.700</td>
+    <td class="tg-c3ow">0.716</td>
+    <td class="tg-c3ow">0.662</td>
+    <td class="tg-c3ow">0.691</td>
+    <td class="tg-c3ow">0.683</td>
+    <td class="tg-c3ow">0.695</td>
+    <td class="tg-c3ow">0.409</td>
+    <td class="tg-c3ow">0.412</td>
+    <td class="tg-c3ow">0.470</td>
+    <td class="tg-c3ow">0.480</td>
+    <td class="tg-c3ow">0.418</td>
+    <td class="tg-c3ow">0.436</td>
+    <td class="tg-c3ow">0.467</td>
+    <td class="tg-c3ow">0.478</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">JDSH [63]</td>
+    <td class="tg-c3ow">0.724</td>
+    <td class="tg-c3ow">0.734</td>
+    <td class="tg-c3ow">0.741</td>
+    <td class="tg-c3ow">0.745</td>
+    <td class="tg-c3ow">0.710</td>
+    <td class="tg-c3ow">0.720</td>
+    <td class="tg-c3ow">0.733</td>
+    <td class="tg-c3ow">0.720</td>
+    <td class="tg-c3ow">0.449</td>
+    <td class="tg-c3ow">0.472</td>
+    <td class="tg-c3ow">0.478</td>
+    <td class="tg-c3ow">0.484</td>
+    <td class="tg-c3ow">0.447</td>
+    <td class="tg-c3ow">0.477</td>
+    <td class="tg-c3ow">0.473</td>
+    <td class="tg-c3ow">0.486</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DGCPN [64]</td>
+    <td class="tg-c3ow">0.711</td>
+    <td class="tg-c3ow">0.723</td>
+    <td class="tg-c3ow">0.737</td>
+    <td class="tg-c3ow">0.748</td>
+    <td class="tg-c3ow">0.695</td>
+    <td class="tg-c3ow">0.707</td>
+    <td class="tg-c3ow">0.725</td>
+    <td class="tg-c3ow">0.731</td>
+    <td class="tg-c3ow">0.465</td>
+    <td class="tg-c3ow">0.485</td>
+    <td class="tg-c3ow">0.486</td>
+    <td class="tg-c3ow">0.495</td>
+    <td class="tg-c3ow">0.467</td>
+    <td class="tg-c3ow">0.488</td>
+    <td class="tg-c3ow">0.491</td>
+    <td class="tg-c3ow">0.497</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCH [13]</td>
+    <td class="tg-c3ow">0.654</td>
+    <td class="tg-c3ow">0.669</td>
+    <td class="tg-c3ow">0.679</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">0.661</td>
+    <td class="tg-c3ow">0.667</td>
+    <td class="tg-c3ow">0.668</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">0.447</td>
+    <td class="tg-c3ow">0.471</td>
+    <td class="tg-c3ow">0.485</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">0.446</td>
+    <td class="tg-c3ow">0.469</td>
+    <td class="tg-c3ow">0.488</td>
+    <td class="tg-c3ow">/</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCCH</td>
+    <td class="tg-7btt">0.739</td>
+    <td class="tg-7btt">0.744</td>
+    <td class="tg-7btt">0.754</td>
+    <td class="tg-7btt">0.760</td>
+    <td class="tg-7btt">0.725</td>
+    <td class="tg-7btt">0.725</td>
+    <td class="tg-7btt">0.743</td>
+    <td class="tg-7btt">0.747</td>
+    <td class="tg-7btt">0.478</td>
+    <td class="tg-7btt">0.491</td>
+    <td class="tg-7btt">0.503</td>
+    <td class="tg-7btt">0.508</td>
+    <td class="tg-7btt">0.474</td>
+    <td class="tg-7btt">0.488</td>
+    <td class="tg-7btt">0.503</td>
+    <td class="tg-7btt">0.508</td>
   </tr>
 </tbody>
 </table>
@@ -381,11 +358,11 @@ Img2Txt: 0.475	Txt2Img: 0.441
 
 <table>
 <thead>
-  <h4>Table 2: Performance comparison in terms of MAP scores under the symmetric noise rates of 0.2, 0.4, 0.6 and 0.8 on the NUS-WIDE and XMediaNet datasets. The highest MAP score is shown in <b>bold</b>.</h4>
+  <h4>Table 2: Performance comparison in terms of MAP scores on the NUS-WIDE and MS-COCO datasets. The highest score is shown in <b>boldface</b>.</h4>
   <tr>
     <th class="tg-0pky" rowspan="3">Method</th>
     <th class="tg-c3ow" colspan="8">NUS-WIDE</th>
-    <th class="tg-c3ow" colspan="8">XMediaNet</th>
+    <th class="tg-c3ow" colspan="8">MS-COCO</th>
   </tr>
   <tr>
     <td class="tg-c3ow" colspan="4", align="center">Image → Text</td>
@@ -394,309 +371,290 @@ Img2Txt: 0.475	Txt2Img: 0.441
     <td class="tg-c3ow" colspan="4", align="center">Text → Image</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
-    <td class="tg-c3ow">0.2</td>
-    <td class="tg-c3ow">0.4</td>
-    <td class="tg-c3ow">0.6</td>
-    <td class="tg-c3ow">0.8</td>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky">MCCA</td>
-    <td class="tg-c3ow">0.523</td>
-    <td class="tg-c3ow">0.523</td>
-    <td class="tg-c3ow">0.523</td>
-    <td class="tg-c3ow">0.523</td>
-    <td class="tg-c3ow">0.539</td>
-    <td class="tg-c3ow">0.539</td>
-    <td class="tg-c3ow">0.539</td>
-    <td class="tg-c3ow">0.539</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.233</td>
-    <td class="tg-c3ow">0.249</td>
-    <td class="tg-c3ow">0.249</td>
-    <td class="tg-c3ow">0.249</td>
-    <td class="tg-c3ow">0.249</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">PLS</td>
-    <td class="tg-c3ow">0.498</td>
-    <td class="tg-c3ow">0.498</td>
-    <td class="tg-c3ow">0.498</td>
-    <td class="tg-c3ow">0.498</td>
-    <td class="tg-c3ow">0.517</td>
-    <td class="tg-c3ow">0.517</td>
-    <td class="tg-c3ow">0.517</td>
-    <td class="tg-c3ow">0.517</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.266</td>
-    <td class="tg-c3ow">0.266</td>
-    <td class="tg-c3ow">0.266</td>
-    <td class="tg-c3ow">0.266</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">DCCA</td>
-    <td class="tg-c3ow">0.527</td>
-    <td class="tg-c3ow">0.527</td>
-    <td class="tg-c3ow">0.527</td>
-    <td class="tg-c3ow">0.527</td>
-    <td class="tg-c3ow">0.537</td>
-    <td class="tg-c3ow">0.537</td>
-    <td class="tg-c3ow">0.537</td>
-    <td class="tg-c3ow">0.537</td>
-    <td class="tg-c3ow">0.152</td>
-    <td class="tg-c3ow">0.152</td>
-    <td class="tg-c3ow">0.152</td>
-    <td class="tg-c3ow">0.152</td>
-    <td class="tg-c3ow">0.162</td>
-    <td class="tg-c3ow">0.162</td>
-    <td class="tg-c3ow">0.162</td>
-    <td class="tg-c3ow">0.162</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">DCCAE</td>
-    <td class="tg-c3ow">0.529</td>
-    <td class="tg-c3ow">0.529</td>
-    <td class="tg-c3ow">0.529</td>
-    <td class="tg-c3ow">0.529</td>
-    <td class="tg-c3ow">0.538</td>
-    <td class="tg-c3ow">0.538</td>
-    <td class="tg-c3ow">0.538</td>
-    <td class="tg-c3ow">0.538</td>
-    <td class="tg-c3ow">0.149</td>
-    <td class="tg-c3ow">0.149</td>
-    <td class="tg-c3ow">0.149</td>
-    <td class="tg-c3ow">0.149</td>
-    <td class="tg-c3ow">0.159</td>
-    <td class="tg-c3ow">0.159</td>
-    <td class="tg-c3ow">0.159</td>
-    <td class="tg-c3ow">0.159</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">GMA</td>
-    <td class="tg-c3ow">0.545</td>
-    <td class="tg-c3ow">0.515</td>
-    <td class="tg-c3ow">0.488</td>
-    <td class="tg-c3ow">0.469</td>
-    <td class="tg-c3ow">0.547</td>
-    <td class="tg-c3ow">0.517</td>
-    <td class="tg-c3ow">0.491</td>
-    <td class="tg-c3ow">0.475</td>
-    <td class="tg-c3ow">0.400</td>
-    <td class="tg-c3ow">0.380</td>
-    <td class="tg-c3ow">0.344</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.376</td>
-    <td class="tg-c3ow">0.364</td>
-    <td class="tg-c3ow">0.336</td>
-    <td class="tg-c3ow">0.277</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">MvDA</td>
-    <td class="tg-c3ow">0.590</td>
-    <td class="tg-c3ow">0.551</td>
-    <td class="tg-c3ow">0.568</td>
-    <td class="tg-c3ow">0.471</td>
-    <td class="tg-c3ow">0.609</td>
-    <td class="tg-c3ow">0.585</td>
-    <td class="tg-c3ow">0.596</td>
-    <td class="tg-c3ow">0.498</td>
-    <td class="tg-c3ow">0.329</td>
-    <td class="tg-c3ow">0.318</td>
-    <td class="tg-c3ow">0.301</td>
-    <td class="tg-c3ow">0.256</td>
-    <td class="tg-c3ow">0.324</td>
-    <td class="tg-c3ow">0.314</td>
-    <td class="tg-c3ow">0.296</td>
-    <td class="tg-c3ow">0.254</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">MvDA-VC</td>
-    <td class="tg-c3ow">0.531</td>
-    <td class="tg-c3ow">0.491</td>
-    <td class="tg-c3ow">0.512</td>
-    <td class="tg-c3ow">0.421</td>
-    <td class="tg-c3ow">0.567</td>
-    <td class="tg-c3ow">0.525</td>
-    <td class="tg-c3ow">0.550</td>
-    <td class="tg-c3ow">0.434</td>
-    <td class="tg-c3ow">0.331</td>
-    <td class="tg-c3ow">0.319</td>
-    <td class="tg-c3ow">0.306</td>
-    <td class="tg-c3ow">0.274</td>
-    <td class="tg-c3ow">0.322</td>
-    <td class="tg-c3ow">0.310</td>
-    <td class="tg-c3ow">0.296</td>
-    <td class="tg-c3ow">0.265</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">GSS-SL</td>
-    <td class="tg-c3ow">0.639</td>
-    <td class="tg-c3ow">0.639</td>
-    <td class="tg-c3ow">0.631</td>
-    <td class="tg-c3ow">0.567</td>
-    <td class="tg-c3ow">0.659</td>
-    <td class="tg-c3ow">0.658</td>
-    <td class="tg-c3ow">0.650</td>
-    <td class="tg-c3ow">0.592</td>
-    <td class="tg-c3ow">0.431</td>
-    <td class="tg-c3ow">0.381</td>
-    <td class="tg-c3ow">0.256</td>
-    <td class="tg-c3ow">0.044</td>
-    <td class="tg-c3ow">0.417</td>
-    <td class="tg-c3ow">0.361</td>
-    <td class="tg-c3ow">0.221</td>
-    <td class="tg-c3ow">0.031</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">ACMR</td>
-    <td class="tg-c3ow">0.530</td>
-    <td class="tg-c3ow">0.433</td>
-    <td class="tg-c3ow">0.318</td>
-    <td class="tg-c3ow">0.269</td>
-    <td class="tg-c3ow">0.547</td>
-    <td class="tg-c3ow">0.476</td>
-    <td class="tg-c3ow">0.304</td>
-    <td class="tg-c3ow">0.241</td>
-    <td class="tg-c3ow">0.181</td>
-    <td class="tg-c3ow">0.069</td>
-    <td class="tg-c3ow">0.018</td>
-    <td class="tg-c3ow">0.010</td>
-    <td class="tg-c3ow">0.191</td>
-    <td class="tg-c3ow">0.043</td>
-    <td class="tg-c3ow">0.012</td>
-    <td class="tg-c3ow">0.009</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">deep-SM</td>
-    <td class="tg-c3ow">0.693</td>
-    <td class="tg-c3ow">0.680</td>
-    <td class="tg-c3ow">0.673</td>
-    <td class="tg-c3ow">0.628</td>
-    <td class="tg-c3ow">0.690</td>
-    <td class="tg-c3ow">0.681</td>
-    <td class="tg-c3ow">0.669</td>
-    <td class="tg-c3ow">0.629</td>
-    <td class="tg-c3ow">0.557</td>
-    <td class="tg-c3ow">0.314</td>
-    <td class="tg-c3ow">0.276</td>
-    <td class="tg-c3ow">0.062</td>
+    <td class="tg-0pky">CVH [20]</td>
+    <td class="tg-c3ow">0.487</td>
     <td class="tg-c3ow">0.495</td>
-    <td class="tg-c3ow">0.344</td>
-    <td class="tg-c3ow">0.021</td>
-    <td class="tg-c3ow">0.014</td>
+    <td class="tg-c3ow">0.456</td>
+    <td class="tg-c3ow">0.419</td>
+    <td class="tg-c3ow">0.470</td>
+    <td class="tg-c3ow">0.475</td>
+    <td class="tg-c3ow">0.444</td>
+    <td class="tg-c3ow">0.412</td>
+    <td class="tg-c3ow">0.503</td>
+    <td class="tg-c3ow">0.504</td>
+    <td class="tg-c3ow">0.471</td>
+    <td class="tg-c3ow">0.425</td>
+    <td class="tg-c3ow">0.506</td>
+    <td class="tg-c3ow">0.508</td>
+    <td class="tg-c3ow">0.476</td>
+    <td class="tg-c3ow">0.429</td>
   </tr>
   <tr>
-    <td class="tg-0pky">FGCrossNet</td>
-    <td class="tg-c3ow">0.661</td>
-    <td class="tg-c3ow">0.641</td>
-    <td class="tg-c3ow">0.638</td>
-    <td class="tg-c3ow">0.594</td>
-    <td class="tg-c3ow">0.669</td>
-    <td class="tg-c3ow">0.669</td>
-    <td class="tg-c3ow">0.636</td>
-    <td class="tg-c3ow">0.596</td>
-    <td class="tg-c3ow">0.372</td>
-    <td class="tg-c3ow">0.280</td>
-    <td class="tg-c3ow">0.147</td>
-    <td class="tg-c3ow">0.053</td>
-    <td class="tg-c3ow">0.375</td>
-    <td class="tg-c3ow">0.281</td>
-    <td class="tg-c3ow">0.160</td>
-    <td class="tg-c3ow">0.052</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">SDML</td>
-    <td class="tg-c3ow">0.694</td>
-    <td class="tg-c3ow">0.677</td>
-    <td class="tg-c3ow">0.633</td>
-    <td class="tg-c3ow">0.389</td>
-    <td class="tg-c3ow">0.693</td>
-    <td class="tg-c3ow">0.681</td>
-    <td class="tg-c3ow">0.644</td>
-    <td class="tg-c3ow">0.416</td>
-    <td class="tg-c3ow">0.534</td>
-    <td class="tg-c3ow">0.420</td>
-    <td class="tg-c3ow">0.216</td>
-    <td class="tg-c3ow">0.009</td>
-    <td class="tg-c3ow">0.563</td>
-    <td class="tg-c3ow">0.445</td>
-    <td class="tg-c3ow">0.237</td>
-    <td class="tg-c3ow">0.011</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">DSCMR</td>
-    <td class="tg-c3ow">0.665</td>
-    <td class="tg-c3ow">0.661</td>
-    <td class="tg-c3ow">0.653</td>
-    <td class="tg-c3ow">0.509</td>
-    <td class="tg-c3ow">0.667</td>
-    <td class="tg-c3ow">0.665</td>
-    <td class="tg-c3ow">0.655</td>
-    <td class="tg-c3ow">0.505</td>
-    <td class="tg-c3ow">0.461</td>
-    <td class="tg-c3ow">0.224</td>
-    <td class="tg-c3ow">0.040</td>
-    <td class="tg-c3ow">0.008</td>
-    <td class="tg-c3ow">0.477</td>
-    <td class="tg-c3ow">0.224</td>
-    <td class="tg-c3ow">0.028</td>
-    <td class="tg-c3ow">0.010</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">SMLN</td>
-    <td class="tg-c3ow">0.676</td>
-    <td class="tg-c3ow">0.651</td>
-    <td class="tg-c3ow">0.646</td>
+    <td class="tg-0pky">LSSH [59]</td>
+    <td class="tg-c3ow">0.442</td>
+    <td class="tg-c3ow">0.457</td>
+    <td class="tg-c3ow">0.450</td>
+    <td class="tg-c3ow">0.451</td>
+    <td class="tg-c3ow">0.473</td>
+    <td class="tg-c3ow">0.482</td>
+    <td class="tg-c3ow">0.471</td>
+    <td class="tg-c3ow">0.457</td>
+    <td class="tg-c3ow">0.484</td>
     <td class="tg-c3ow">0.525</td>
-    <td class="tg-c3ow">0.685</td>
-    <td class="tg-c3ow">0.650</td>
-    <td class="tg-c3ow">0.639</td>
-    <td class="tg-c3ow">0.520</td>
-    <td class="tg-c3ow">0.520</td>
-    <td class="tg-c3ow">0.445</td>
-    <td class="tg-c3ow">0.070</td>
-    <td class="tg-c3ow">0.070</td>
-    <td class="tg-c3ow">0.514</td>
-    <td class="tg-c3ow">0.300</td>
-    <td class="tg-c3ow">0.303</td>
-    <td class="tg-c3ow">0.226</td>
+    <td class="tg-c3ow">0.542</td>
+    <td class="tg-c3ow">0.551</td>
+    <td class="tg-c3ow">0.490</td>
+    <td class="tg-c3ow">0.522</td>
+    <td class="tg-c3ow">0.547</td>
+    <td class="tg-c3ow">0.560</td>
   </tr>
   <tr>
-    <td class="tg-0pky">Ours</td>
-    <td class="tg-7btt"><b>0.696</b></td>
-    <td class="tg-7btt"><b>0.690</b></td>
-    <td class="tg-7btt"><b>0.686</b></td>
-    <td class="tg-7btt"><b>0.669</b></td>
-    <td class="tg-7btt"><b>0.697</b></td>
-    <td class="tg-7btt"><b>0.695</b></td>
-    <td class="tg-7btt"><b>0.688</b></td>
-    <td class="tg-7btt"><b>0.673</b></td>
-    <td class="tg-7btt"><b>0.625</b></td>
-    <td class="tg-7btt"><b>0.581</b></td>
-    <td class="tg-7btt"><b>0.384</b></td>
-    <td class="tg-7btt"><b>0.334</b></td>
-    <td class="tg-7btt"><b>0.623</b></td>
-    <td class="tg-7btt"><b><b>0.587</b></td>
-    <td class="tg-7btt"><b>0.408</b></td>
-    <td class="tg-7btt"><b>0.359</b></td>
+    <td class="tg-0pky">CMFH [60]</td>
+    <td class="tg-c3ow">0.339</td>
+    <td class="tg-c3ow">0.338</td>
+    <td class="tg-c3ow">0.343</td>
+    <td class="tg-c3ow">0.339</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.366</td>
+    <td class="tg-c3ow">0.369</td>
+    <td class="tg-c3ow">0.370</td>
+    <td class="tg-c3ow">0.365</td>
+    <td class="tg-c3ow">0.346</td>
+    <td class="tg-c3ow">0.346</td>
+    <td class="tg-c3ow">0.346</td>
+    <td class="tg-c3ow">0.346</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">FSH [18]</td>
+    <td class="tg-c3ow">0.557</td>
+    <td class="tg-c3ow">0.565</td>
+    <td class="tg-c3ow">0.598</td>
+    <td class="tg-c3ow">0.635</td>
+    <td class="tg-c3ow">0.569</td>
+    <td class="tg-c3ow">0.604</td>
+    <td class="tg-c3ow">0.651</td>
+    <td class="tg-c3ow">0.666</td>
+    <td class="tg-c3ow">0.539</td>
+    <td class="tg-c3ow">0.549</td>
+    <td class="tg-c3ow">0.576</td>
+    <td class="tg-c3ow">0.587</td>
+    <td class="tg-c3ow">0.537</td>
+    <td class="tg-c3ow">0.524</td>
+    <td class="tg-c3ow">0.564</td>
+    <td class="tg-c3ow">0.573</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DLFH [23]</td>
+    <td class="tg-c3ow">0.385</td>
+    <td class="tg-c3ow">0.399</td>
+    <td class="tg-c3ow">0.443</td>
+    <td class="tg-c3ow">0.445</td>
+    <td class="tg-c3ow">0.421</td>
+    <td class="tg-c3ow">0.421</td>
+    <td class="tg-c3ow">0.462</td>
+    <td class="tg-c3ow">0.474</td>
+    <td class="tg-c3ow">0.522</td>
+    <td class="tg-c3ow">0.580</td>
+    <td class="tg-c3ow">0.614</td>
+    <td class="tg-c3ow">0.631</td>
+    <td class="tg-c3ow">0.444</td>
+    <td class="tg-c3ow">0.489</td>
+    <td class="tg-c3ow">0.513</td>
+    <td class="tg-c3ow">0.534</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">MTFH [16]</td>
+    <td class="tg-c3ow">0.297</td>
+    <td class="tg-c3ow">0.297</td>
+    <td class="tg-c3ow">0.272</td>
+    <td class="tg-c3ow">0.328</td>
+    <td class="tg-c3ow">0.353</td>
+    <td class="tg-c3ow">0.314</td>
+    <td class="tg-c3ow">0.399</td>
+    <td class="tg-c3ow">0.410</td>
+    <td class="tg-c3ow">0.399</td>
+    <td class="tg-c3ow">0.293</td>
+    <td class="tg-c3ow">0.295</td>
+    <td class="tg-c3ow">0.395</td>
+    <td class="tg-c3ow">0.335</td>
+    <td class="tg-c3ow">0.374</td>
+    <td class="tg-c3ow">0.300</td>
+    <td class="tg-c3ow">0.334</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">FOMH [58]</td>
+    <td class="tg-c3ow">0.305</td>
+    <td class="tg-c3ow">0.305</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.314</td>
+    <td class="tg-c3ow">0.302</td>
+    <td class="tg-c3ow">0.304</td>
+    <td class="tg-c3ow">0.300</td>
+    <td class="tg-c3ow">0.306</td>
+    <td class="tg-c3ow">0.378</td>
+    <td class="tg-c3ow">0.514</td>
+    <td class="tg-c3ow">0.571</td>
+    <td class="tg-c3ow">0.601</td>
+    <td class="tg-c3ow">0.368</td>
+    <td class="tg-c3ow">0.484</td>
+    <td class="tg-c3ow">0.559</td>
+    <td class="tg-c3ow">0.595</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DCH [34]</td>
+    <td class="tg-c3ow">0.392</td>
+    <td class="tg-c3ow">0.422</td>
+    <td class="tg-c3ow">0.430</td>
+    <td class="tg-c3ow">0.436</td>
+    <td class="tg-c3ow">0.379</td>
+    <td class="tg-c3ow">0.432</td>
+    <td class="tg-c3ow">0.444</td>
+    <td class="tg-c3ow">0.459</td>
+    <td class="tg-c3ow">0.422</td>
+    <td class="tg-c3ow">0.420</td>
+    <td class="tg-c3ow">0.446</td>
+    <td class="tg-c3ow">0.468</td>
+    <td class="tg-c3ow">0.421</td>
+    <td class="tg-c3ow">0.428</td>
+    <td class="tg-c3ow">0.454</td>
+    <td class="tg-c3ow">0.471</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UGACH [61]</td>
+    <td class="tg-c3ow">0.613</td>
+    <td class="tg-c3ow">0.623</td>
+    <td class="tg-c3ow">0.628</td>
+    <td class="tg-c3ow">0.631</td>
+    <td class="tg-c3ow">0.603</td>
+    <td class="tg-c3ow">0.614</td>
+    <td class="tg-c3ow">0.640</td>
+    <td class="tg-c3ow">0.641</td>
+    <td class="tg-c3ow">0.553</td>
+    <td class="tg-c3ow">0.599</td>
+    <td class="tg-c3ow">0.598</td>
+    <td class="tg-c3ow">0.615</td>
+    <td class="tg-c3ow">0.581</td>
+    <td class="tg-c3ow">0.605</td>
+    <td class="tg-c3ow">0.629</td>
+    <td class="tg-c3ow">0.635</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DJSRH [62]</td>
+    <td class="tg-c3ow">0.502</td>
+    <td class="tg-c3ow">0.538</td>
+    <td class="tg-c3ow">0.527</td>
+    <td class="tg-c3ow">0.556</td>
+    <td class="tg-c3ow">0.465</td>
+    <td class="tg-c3ow">0.532</td>
+    <td class="tg-c3ow">0.538</td>
+    <td class="tg-c3ow">0.545</td>
+    <td class="tg-c3ow">0.501</td>
+    <td class="tg-c3ow">0.563</td>
+    <td class="tg-c3ow">0.595</td>
+    <td class="tg-c3ow">0.615</td>
+    <td class="tg-c3ow">0.494</td>
+    <td class="tg-c3ow">0.569</td>
+    <td class="tg-c3ow">0.604</td>
+    <td class="tg-c3ow">0.622</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">JDSH [63]</td>
+    <td class="tg-c3ow">0.647</td>
+    <td class="tg-c3ow">0.656</td>
+    <td class="tg-c3ow">0.679</td>
+    <td class="tg-c3ow">0.680</td>
+    <td class="tg-c3ow">0.649</td>
+    <td class="tg-c3ow">0.669</td>
+    <td class="tg-c3ow">0.689</td>
+    <td class="tg-c3ow">0.699</td>
+    <td class="tg-c3ow">0.579</td>
+    <td class="tg-c3ow">0.628</td>
+    <td class="tg-c3ow">0.647</td>
+    <td class="tg-c3ow">0.662</td>
+    <td class="tg-c3ow">0.578</td>
+    <td class="tg-c3ow">0.634</td>
+    <td class="tg-c3ow">0.659</td>
+    <td class="tg-c3ow">0.672</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">DGCPN [64]</td>
+    <td class="tg-c3ow">0.610</td>
+    <td class="tg-c3ow">0.614</td>
+    <td class="tg-c3ow">0.635</td>
+    <td class="tg-c3ow">0.641</td>
+    <td class="tg-c3ow">0.617</td>
+    <td class="tg-c3ow">0.621</td>
+    <td class="tg-c3ow">0.642</td>
+    <td class="tg-c3ow">0.647</td>
+    <td class="tg-c3ow">0.552</td>
+    <td class="tg-c3ow">0.590</td>
+    <td class="tg-c3ow">0.602</td>
+    <td class="tg-c3ow">0.596</td>
+    <td class="tg-c3ow">0.564</td>
+    <td class="tg-c3ow">0.590</td>
+    <td class="tg-c3ow">0.597</td>
+    <td class="tg-c3ow">0.597</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCH [13]</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">0.521</td>
+    <td class="tg-c3ow">0.534</td>
+    <td class="tg-c3ow">0.547</td>
+    <td class="tg-c3ow">/</td>
+    <td class="tg-c3ow">0.499</td>
+    <td class="tg-c3ow">0.519</td>
+    <td class="tg-c3ow">0.545</td>
+    <td class="tg-c3ow">/</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCCH</td>
+    <td class="tg-7btt">0.698</td>
+    <td class="tg-7btt">0.708</td>
+    <td class="tg-7btt">0.737</td>
+    <td class="tg-7btt">0.742</td>
+    <td class="tg-7btt">0.701</td>
+    <td class="tg-7btt">0.724</td>
+    <td class="tg-7btt">0.745</td>
+    <td class="tg-7btt">0.750</td>
+    <td class="tg-7btt">0.605</td>
+    <td class="tg-7btt">0.645</td>
+    <td class="tg-7btt">0.655</td>
+    <td class="tg-7btt">0.665</td>
+    <td class="tg-7btt">0.610</td>
+    <td class="tg-7btt">0.655</td>
+    <td class="tg-7btt">0.666</td>
+    <td class="tg-7btt">0.677</td>
   </tr>
 </tbody>
 </table>
@@ -704,78 +662,158 @@ Img2Txt: 0.475	Txt2Img: 0.441
 ## Ablation Study
 <table class="tg", align="center">
 <thead>
-  <h4>Table 3: Comparison between our MRL (full version) and its three counterparts (CE and two variations of MRL) under the symmetric noise rates of 0.2, 0.4, 0.6 and 0.8 on the Wikipedia dataset. The highest score is shown in <b>bold</b>.</h4>
+  <h4>Ablation study on different datasets. The highest score is shown in <b>boldface</b>.</h4>
   <tr>
-    <th class="tg-0lax" rowspan="2">Method</th>
-    <th class="tg-baqh" colspan="4", align="center">Image → Text</th>
+    <th class="tg-0pky" rowspan="2">Dataset</th>
+    <th class="tg-0pky" rowspan="2">Method</th>
+    <th class="tg-c3ow" colspan="4">Image → Text</th>
+    <th class="tg-c3ow" colspan="4">Text → Image</th>
   </tr>
   <tr>
-    <td class="tg-0lax">0.2</td>
-    <td class="tg-0lax">0.4</td>
-    <td class="tg-0lax">0.6</td>
-    <td class="tg-0lax">0.8</td>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
+    <th class="tg-c3ow">16</th>
+    <th class="tg-c3ow">32</th>
+    <th class="tg-c3ow">64</th>
+    <th class="tg-c3ow">128</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0lax">CE</td>
-    <td class="tg-0lax">0.441</td>
-    <td class="tg-0lax">0.387</td>
-    <td class="tg-0lax">0.293</td>
-    <td class="tg-0lax">0.178</td>
+    <td class="tg-0pky" rowspan="6">IAPR TC-12</td>
+    <td class="tg-0pky">UCCH (with 𝓛<sub>𝒸</sub> only)</td>
+    <td class="tg-c3ow">0.457</td>
+    <td class="tg-c3ow">0.469</td>
+    <td class="tg-c3ow">0.478</td>
+    <td class="tg-c3ow">0.482</td>
+    <td class="tg-c3ow">0.447</td>
+    <td class="tg-c3ow">0.469</td>
+    <td class="tg-c3ow">0.483</td>
+    <td class="tg-c3ow">0.486</td>
   </tr>
   <tr>
-    <td class="tg-0lax">MRL (with &Lscr;<sub>𝓇</sub> only)</td>
-    <td class="tg-0lax">0.482</td>
-    <td class="tg-0lax">0.434</td>
-    <td class="tg-0lax">0.363</td>
-    <td class="tg-0lax">0.239</td>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.1</sub> only)</td>
+    <td class="tg-c3ow">0.410</td>
+    <td class="tg-c3ow">0.426</td>
+    <td class="tg-c3ow">0.432</td>
+    <td class="tg-c3ow">0.438</td>
+    <td class="tg-c3ow">0.421</td>
+    <td class="tg-c3ow">0.434</td>
+    <td class="tg-c3ow">0.461</td>
+    <td class="tg-c3ow">0.460</td>
   </tr>
   <tr>
-    <td class="tg-0lax">MRL (with &Lscr;<sub>𝒸</sub> only)</td>
-    <td class="tg-0lax">0.412</td>
-    <td class="tg-0lax">0.412</td>
-    <td class="tg-0lax">0.412</td>
-    <td class="tg-0lax">0.412</td>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.5</sub> only)</td>
+    <td class="tg-c3ow">0.423</td>
+    <td class="tg-c3ow">0.446</td>
+    <td class="tg-c3ow">0.463</td>
+    <td class="tg-c3ow">0.470</td>
+    <td class="tg-c3ow">0.434</td>
+    <td class="tg-c3ow">0.450</td>
+    <td class="tg-c3ow">0.471</td>
+    <td class="tg-c3ow">0.479</td>
   </tr>
   <tr>
-    <td class="tg-0lax">Full MRL</td>
-    <td class="tg-0lax"><b>0.514</b></td>
-    <td class="tg-0lax"><b>0.491</b></td>
-    <td class="tg-0lax"><b>0.464</b></td>
-    <td class="tg-0lax"><b>0.435</b></td>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.9</sub> only)</td>
+    <td class="tg-c3ow">0.444</td>
+    <td class="tg-c3ow">0.460</td>
+    <td class="tg-c3ow">0.472</td>
+    <td class="tg-c3ow">0.480</td>
+    <td class="tg-c3ow">0.450</td>
+    <td class="tg-c3ow">0.472</td>
+    <td class="tg-c3ow">0.469</td>
+    <td class="tg-c3ow">0.476</td>
   </tr>
   <tr>
-    <td class="tg-0lax"></td>
-    <td class="tg-baqh" colspan="4", align="center">Text → Image</td>
+    <td class="tg-0pky">UCCH (with 𝓛<sub>𝑟</sub> only)</td>
+    <td class="tg-c3ow">0.461</td>
+    <td class="tg-c3ow">0.482</td>
+    <td class="tg-c3ow">0.496</td>
+    <td class="tg-c3ow">0.495</td>
+    <td class="tg-c3ow">0.457</td>
+    <td class="tg-c3ow">0.476</td>
+    <td class="tg-c3ow">0.492</td>
+    <td class="tg-c3ow">0.488</td>
   </tr>
   <tr>
-    <td class="tg-0lax">CE</td>
-    <td class="tg-0lax">0.392</td>
-    <td class="tg-0lax">0.364</td>
-    <td class="tg-0lax">0.248</td>
-    <td class="tg-0lax">0.177</td>
+    <td class="tg-0pky">Full UCCH</td>
+    <td class="tg-7btt">0.478</td>
+    <td class="tg-7btt">0.491</td>
+    <td class="tg-7btt">0.503</td>
+    <td class="tg-7btt">0.508</td>
+    <td class="tg-7btt">0.474</td>
+    <td class="tg-7btt">0.488</td>
+    <td class="tg-7btt">0.503</td>
+    <td class="tg-7btt">0.508</td>
   </tr>
   <tr>
-    <td class="tg-0lax">MRL (with &Lscr;<sub>𝓇</sub> only)</td>
-    <td class="tg-0lax">0.429</td>
-    <td class="tg-0lax">0.389</td>
-    <td class="tg-0lax">0.320</td>
-    <td class="tg-0lax">0.202</td>
+    <td class="tg-0pky" rowspan="6">MS-COCO</td>
+    <td class="tg-0pky">UCCH (with 𝓛<sub>𝒸</sub> only)</td>
+    <td class="tg-c3ow">0.577</td>
+    <td class="tg-c3ow">0.605</td>
+    <td class="tg-c3ow">0.621</td>
+    <td class="tg-c3ow">0.624</td>
+    <td class="tg-c3ow">0.579</td>
+    <td class="tg-c3ow">0.610</td>
+    <td class="tg-c3ow">0.626</td>
+    <td class="tg-c3ow">0.627</td>
   </tr>
   <tr>
-    <td class="tg-0lax">MRL (with &Lscr;<sub>𝒸</sub> only)</td>
-    <td class="tg-0lax">0.383</td>
-    <td class="tg-0lax">0.382</td>
-    <td class="tg-0lax">0.383</td>
-    <td class="tg-0lax">0.383</td>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.1</sub> only)</td>
+    <td class="tg-c3ow">0.495</td>
+    <td class="tg-c3ow">0.512</td>
+    <td class="tg-c3ow">0.548</td>
+    <td class="tg-c3ow">0.555</td>
+    <td class="tg-c3ow">0.483</td>
+    <td class="tg-c3ow">0.503</td>
+    <td class="tg-c3ow">0.534</td>
+    <td class="tg-c3ow">0.549</td>
   </tr>
   <tr>
-    <td class="tg-0lax">Full MRL</td>
-    <td class="tg-0lax"><b>0.461</b></td>
-    <td class="tg-0lax"><b>0.453</b></td>
-    <td class="tg-0lax"><b>0.421</b></td>
-    <td class="tg-0lax"><b>0.400</b></td>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.5</sub> only)</td>
+    <td class="tg-c3ow">0.499</td>
+    <td class="tg-c3ow">0.525</td>
+    <td class="tg-c3ow">0.554</td>
+    <td class="tg-c3ow">0.579</td>
+    <td class="tg-c3ow">0.498</td>
+    <td class="tg-c3ow">0.527</td>
+    <td class="tg-c3ow">0.546</td>
+    <td class="tg-c3ow">0.566</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCCH (with 𝓛'<sub>𝑟, 𝑚=0.9</sub> only)</td>
+    <td class="tg-c3ow">0.529</td>
+    <td class="tg-c3ow">0.535</td>
+    <td class="tg-c3ow">0.554</td>
+    <td class="tg-c3ow">0.558</td>
+    <td class="tg-c3ow">0.525</td>
+    <td class="tg-c3ow">0.545</td>
+    <td class="tg-c3ow">0.546</td>
+    <td class="tg-c3ow">0.560</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">UCCH (with 𝓛<sub>𝑟</sub> only)</td>
+    <td class="tg-c3ow">0.563</td>
+    <td class="tg-c3ow">0.574</td>
+    <td class="tg-c3ow">0.599</td>
+    <td class="tg-c3ow">0.602</td>
+    <td class="tg-c3ow">0.563</td>
+    <td class="tg-c3ow">0.576</td>
+    <td class="tg-c3ow">0.606</td>
+    <td class="tg-c3ow">0.609</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Full UCCH</td>
+    <td class="tg-7btt">0.605</td>
+    <td class="tg-7btt">0.645</td>
+    <td class="tg-7btt">0.655</td>
+    <td class="tg-7btt">0.665</td>
+    <td class="tg-7btt">0.610</td>
+    <td class="tg-7btt">0.655</td>
+    <td class="tg-7btt">0.666</td>
+    <td class="tg-7btt">0.677</td>
   </tr>
 </tbody>
 </table>
@@ -783,11 +821,12 @@ Img2Txt: 0.475	Txt2Img: 0.441
 ## Citation
 If you find MRL useful in your research, please consider citing:
 ```
-@inproceedings{hu2021MRL,
-   title={Learning Cross-Modal Retrieval with Noisy Labels},
-   author={Peng Hu, Xi Peng, Hongyuan Zhu, Liangli Zhen, Jie Lin},
-   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-   pages={5403--5413},
-   year={2021}
+@article{hu2022UCCH,
+   title={Unsupervised Contrastive Cross-modal Hashing},
+   author={Peng Hu, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng},
+   journal={IEEE Trans Pattern Analysis and Machine Intelligence},
+   doi={10.1109/TPAMI.2022.3177356},
+   year={2022},
+   publisher={IEEE}
 }
 ```
