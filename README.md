@@ -7,7 +7,7 @@ In this paper, we study how to make unsupervised cross-modal hashing (CMH) benef
 ## Framework
 <h4>Figure 1 The pipeline of the proposed method and we take a bimodal case as an example. In the example, two modality-specific networks learn unified binary representations for different modalities. The outputs of networks directly interact with the hash codes to learn the latent discrimination by using instance-level contrast without continuous relaxation, i.e., contrastive hashing learning (&Lscr;<sub>𝒸</sub>). The cross-modal ranking loss &Lscr;<sub>𝓇</sub> is utilized to bridge cross-modal hashing learning to cross-modal retrieval.
 </h4>
-![UCCH](paper/UCCH_Framework.jpg)
+![UCCH](paper/UCCH.jpg)
 
 ## Usage
 To train a model with 0.6 noise rate on Wikipedia, just run main_noisy.py:
