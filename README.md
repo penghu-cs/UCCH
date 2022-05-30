@@ -662,7 +662,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
 ## Ablation Study
 <table class="tg", align="center">
 <thead>
-  <h4>Ablation study on different datasets. The highest score is shown in <b>boldface</b>.</h4>
+  <h4>Table 3: Ablation study on different datasets. The highest score is shown in <b>boldface</b>.</h4>
   <tr>
     <th class="tg-0pky" rowspan="2">Dataset</th>
     <th class="tg-0pky" rowspan="2">Method</th>
