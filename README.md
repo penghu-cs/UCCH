@@ -1,5 +1,5 @@
 # UCCH
-**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*,[Unsupervised Contrastive Cross-modal Hashing](paper/UCCH.pdf), IEEE Trans Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
+**Peng Hu**, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng*,[Unsupervised Contrastive Cross-modal Hashing](paper/UCCH.pdf), IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), 26 May 2022. DOI: 10.1109/TPAMI.2022.3177356. (PyTorch Code)
 
 ## Abstract
 In this paper, we study how to make unsupervised cross-modal hashing (CMH) benefit from contrastive learning (CL) by overcoming two challenges. To be exact, i) to address the performance degradation issue caused by binary optimization for hashing, we propose a novel momentum optimizer that performs hashing operation learnable in CL, thus making on-the-shelf deep cross-modal hashing possible. In other words, our method does not involve binary-continuous relaxation like most existing methods, thus enjoying better retrieval performance; ii) to alleviate the influence brought by false-negative pairs (FNPs), we propose a Cross-modal Ranking Learning loss (CRL) which utilizes the discrimination from all instead of only the hard negative pairs, where FNP refers to the within-class pairs that were wrongly treated as negative pairs. Thanks to such a global strategy, CRL endows our method with better performance because CRL will not overuse the FNPs while ignoring the true-negative pairs. To the best of our knowledge, the proposed method could be one of the first successful contrastive hashing methods. To demonstrate the effectiveness of the proposed method, we carry out experiments on five widely-used datasets compared with 13 state-of-the-art methods. The code is available at https://github.com/penghu-cs/UCCH.
@@ -824,7 +824,7 @@ If you find UCCH useful in your research, please consider citing:
 @article{hu2022UCCH,
    title={Unsupervised Contrastive Cross-modal Hashing},
    author={Peng Hu, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng},
-   journal={IEEE Trans Pattern Analysis and Machine Intelligence},
+   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
    doi={10.1109/TPAMI.2022.3177356},
    year={2022},
    publisher={IEEE}
