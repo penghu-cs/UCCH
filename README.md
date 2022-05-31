@@ -335,7 +335,7 @@ Test:	Img2Txt: 0.769567 	 Txt2Img: 0.746658 	 Avg: 0.758112
   </tr>
   <tr>
     <td class="tg-0pky">UCCH</td>
-    <td class="tg-7btt">**0.739**</td>
+    <td class="tg-7btt"><b>0.739<\b></td>
     <td class="tg-7btt">0.744</td>
     <td class="tg-7btt">0.754</td>
     <td class="tg-7btt">0.760</td>
