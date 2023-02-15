@@ -198,7 +198,7 @@ def NUSWIDE_fea(partition):
     root = '../../DeepMDA/datasets/NUS-WIDE-TC10/'
     test_size = 2100
     data_img = sio.loadmat(root + 'nus-wide-tc10-xall-vgg.mat')['XAll']
-    data_txt = h5py.File(root + 'nus-wide-tc10-yall.mat')['YAll'][()].T
+    data_txt = sio.loadmat(root + 'nus-wide-tc10-yall.mat')['YAll']
     labels = sio.loadmat(root + 'nus-wide-tc10-lall.mat')['LAll']
 
     test_size = 2100
