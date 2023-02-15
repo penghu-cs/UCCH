@@ -158,7 +158,7 @@ def NUSWIDE(partition):
     return imgs.transpose([0, 3, 2, 1]), tags, labels, root
 
 def MIRFlickr25K_fea(partition):
-    root = '../../DeepMDA/datasets/MIRFLICKR25K/'
+    root = './data/MIRFLICKR25K/'
     data_img = sio.loadmat(os.path.join(root, 'mirflickr25k-iall-vgg-rand.mat'))['XAll']
     data_txt = sio.loadmat(os.path.join(root, 'mirflickr25k-yall-rand.mat'))['YAll']
     labels = sio.loadmat(os.path.join(root, 'mirflickr25k-lall-rand.mat'))['LAll']
@@ -172,7 +172,7 @@ def MIRFlickr25K_fea(partition):
     return data_img, data_txt, labels
 
 def IAPR_fea(partition):
-    root = '../../DeepMDA/datasets/IAPR-TC12/'
+    root = './data/IAPR-TC12/'
     file_path = os.path.join(root, 'iapr-tc12-rand.mat')
     data = sio.loadmat(file_path)
 
@@ -195,7 +195,7 @@ def IAPR_fea(partition):
     return data_img, data_txt, labels
 
 def NUSWIDE_fea(partition):
-    root = '../../DeepMDA/datasets/NUS-WIDE-TC10/'
+    root = './data/NUS-WIDE-TC10/'
     test_size = 2100
     data_img = sio.loadmat(root + 'nus-wide-tc10-xall-vgg.mat')['XAll']
     data_txt = sio.loadmat(root + 'nus-wide-tc10-yall.mat')['YAll']
@@ -209,7 +209,7 @@ def NUSWIDE_fea(partition):
     return data_img, data_txt, labels
 
 def MSCOCO_fea(partition):
-    root = '../../DeepMDA/datasets/MSCOCO/'
+    root = './data/MSCOCO/'
     path = root + 'MSCOCO_deep_doc2vec_data.h5py'
     data = h5py.File(path)
     data_img = np.concatenate([data['train_imgs_deep'][()], data['test_imgs_deep'][()]], axis=0)
