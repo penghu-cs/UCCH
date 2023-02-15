@@ -825,8 +825,10 @@ If you find UCCH useful in your research, please consider citing:
    title={Unsupervised Contrastive Cross-modal Hashing},
    author={Peng Hu, Hongyuan Zhu, Jie Lin, Dezhong Peng, Yin-Ping Zhao, Xi Peng},
    journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
-   doi={10.1109/TPAMI.2022.3177356},
-   year={2022},
-   publisher={IEEE}
+   year={2023},
+   volume={45},
+   number={3},
+   pages={3877-3889},
+   doi={10.1109/TPAMI.2022.3177356}
 }
 ```
