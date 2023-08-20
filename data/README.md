@@ -8,6 +8,14 @@ MIRFLICKR25K:
     
     password: ubwu
     
+
+IAPR-TC12:
+
+    link: https://pan.baidu.com/s/1c779W9I_E3szolBcPc_uTQ?pwd=f2ij
+    
+    password: f2ij
+    
+
 NUS-WIDE (top-10 concept):
 
     link: https://pan.baidu.com/s/1mlCVxiSsjp7pcQeQQX-yDw
