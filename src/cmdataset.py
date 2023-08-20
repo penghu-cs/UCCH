@@ -210,11 +210,11 @@ def NUSWIDE_fea(partition):
 
 def MSCOCO_fea(partition):
     root = './data/MSCOCO/'
-    path = root + 'MSCOCO_deep_doc2vec_data.h5py'
+    path = root + 'MSCOCO_deep_doc2vec_data_rand.h5py'
     data = h5py.File(path)
-    data_img = np.concatenate([data['train_imgs_deep'][()], data['test_imgs_deep'][()]], axis=0)
-    data_txt = np.concatenate([data['train_text'][()], data['test_text'][()]], axis=0)
-    labels = np.concatenate([data['train_imgs_labels'][()], data['test_imgs_labels'][()]], axis=0)
+    data_img = data['XAll'][()]
+    data_txt = data['YAll'][()]
+    labels = data['LAll'][()]
 
     test_size = 5000
     if 'test' in partition.lower():
