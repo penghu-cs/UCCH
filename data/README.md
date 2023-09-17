@@ -1,6 +1,6 @@
 Data files.
 
-MIRFLICKR25K and NUS-WIDE-TC10 could be downloaded from pan.baidu.com.
+MIRFLICKR25K, IAPR-TC12, NUS-WIDE-TC10, and MSCOCO can be downloaded from pan.baidu.com.
 
 MIRFLICKR25K:
 
