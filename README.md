@@ -16,7 +16,7 @@ To train a model with 128 bits on MIRFLICKR-25K, just run UCCH.py:
 python UCCH.py --data_name mirflickr25k_fea --bit 128 --alpha 0.7 --num_hiden_layers 3 2 --margin 0.2 --max_epochs 20 --train_batch_size 256 --shift 0.1 --lr 0.0001 --optimizer Adam
 
 # Raw data
-python UCCH.py --data_name mirflickr25k --bit 128 --alpha 0.7 --num_hiden_layers 3 2 --margin 0.2 --max_epochs 20 --train_batch_size 256 --shift 0.1 --lr 0.0001 --optimizer Adam --pretrain -a vgg11
+python UCCH.py --data_name mirflickr25k --bit 128 --alpha 0.7 --num_hiden_layers 3 2 --margin 0.2 --max_epochs 20 --train_batch_size 256 --shift 0.1 --lr 0.0001 --optimizer Adam --warmup_epoch 5 --pretrain -a vgg11
 ```
 
 You can get outputs as follows:
