@@ -159,9 +159,9 @@ def NUSWIDE(partition):
 
 def MIRFlickr25K_fea(partition):
     root = './data/MIRFLICKR25K/'
-    data_img = sio.loadmat(os.path.join(root, 'mirflickr25k-iall-vgg-rand.mat'))['XAll']
-    data_txt = sio.loadmat(os.path.join(root, 'mirflickr25k-yall-rand.mat'))['YAll']
-    labels = sio.loadmat(os.path.join(root, 'mirflickr25k-lall-rand.mat'))['LAll']
+    data_img = sio.loadmat(os.path.join(root, 'mirflickr25k-iall-vgg.mat'))['XAll']
+    data_txt = sio.loadmat(os.path.join(root, 'mirflickr25k-yall.mat'))['YAll']
+    labels = sio.loadmat(os.path.join(root, 'mirflickr25k-lall.mat'))['LAll']
 
     test_size = 2000
     if 'test' in partition.lower():
