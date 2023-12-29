@@ -247,7 +247,7 @@ def fx_calc_map_multilabel_k(retrieval, retrieval_labels, query, query_label, k=
     numcases = dist.shape[0]
     res = []
     for i in range(numcases):
-        order = ord[i].reshape(-1)[0: k]
+        order = ord[i].reshape(-1)
 
         tmp_label = (np.dot(retrieval_labels[order], query_label[i]) > 0)
         if tmp_label.sum() > 0:
