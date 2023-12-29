@@ -245,9 +245,11 @@ def fx_calc_map_multilabel_k(retrieval, retrieval_labels, query, query_label, k=
     dist = scipy.spatial.distance.cdist(query, retrieval, metric)
     ord = dist.argsort()
     numcases = dist.shape[0]
+    if k == 0:
+        k = dist.shape[1]
     res = []
     for i in range(numcases):
-        order = ord[i].reshape(-1)
+        order = ord[i].reshape(-1)[0: k]
 
         tmp_label = (np.dot(retrieval_labels[order], query_label[i]) > 0)
         if tmp_label.sum() > 0:
